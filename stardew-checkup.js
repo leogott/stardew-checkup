@@ -4966,7 +4966,7 @@ window.onload = function () {
 				for(var i = 0; i < opt.length; i++){
 					if(opt[i].checked){
 						saveInfo.outputPrefOld = opt[i].value;
-						Cookies.set('checkup-opt-old', opt[i].value, { expires: 365, path: '' });
+						Cookies.set('checkup-opt-old', opt[i].value, { expires: 365, path: '', secure: true });
 						break;
 					}
 				}
@@ -4977,7 +4977,7 @@ window.onload = function () {
 				for(var i = 0; i < opt.length; i++){
 					if(opt[i].checked){
 						saveInfo.outputPrefNew = opt[i].value;
-						Cookies.set('checkup-opt-new', opt[i].value, { expires: 365, path: '' });
+						Cookies.set('checkup-opt-new', opt[i].value, { expires: 365, path: '', secure: true });
 						break;
 					}
 				}
