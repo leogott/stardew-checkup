@@ -4956,8 +4956,7 @@ window.onload = function () {
 			}
 		};
 		reader.onload = function (e) {
-			var output = "",
-				xmlDoc = $.parseXML(e.target.result),
+			var xmlDoc = $.parseXML(e.target.result),
 				saveInfo = {};
 
 			saveInfo.outputPrefOld = 'hide_details';
@@ -4983,33 +4982,33 @@ window.onload = function () {
 				}
 			}
 
-			output += parseSummary(xmlDoc, saveInfo);
-			output += parseMoney(xmlDoc, saveInfo);
-			output += parseSkills(xmlDoc, saveInfo);
-			output += parseQuests(xmlDoc, saveInfo);
-			output += parseMonsters(xmlDoc, saveInfo);
-			output += parseStardrops(xmlDoc, saveInfo);
-			output += parseFamily(xmlDoc, saveInfo);
-			output += parseSocial(xmlDoc, saveInfo);
-			output += parseCooking(xmlDoc, saveInfo);
-			output += parseCrafting(xmlDoc, saveInfo);
-			output += parseFishing(xmlDoc, saveInfo);
-			output += parseBasicShipping(xmlDoc, saveInfo);
-			output += parseCropShipping(xmlDoc, saveInfo);
-			output += parseMuseum(xmlDoc, saveInfo);
-			output += parseSecretNotes(xmlDoc, saveInfo);
-			output += parseBundles(xmlDoc, saveInfo);
-			output += parseGrandpa(xmlDoc, saveInfo);
-			output += parseSpecialOrders(xmlDoc, saveInfo);
-			output += parseJournalScraps(xmlDoc, saveInfo);
-			output += parseWalnuts(xmlDoc, saveInfo);
-			output += parseIslandUpgrades(xmlDoc, saveInfo);
-			output += parsePerfectionTracker(xmlDoc, saveInfo);
+      let out = $('#out');
+			out.empty();
+			out.append(parseSummary(xmlDoc, saveInfo));
+			out.append(parseMoney(xmlDoc, saveInfo));
+			out.append(parseSkills(xmlDoc, saveInfo));
+			out.append(parseQuests(xmlDoc, saveInfo));
+			out.append(parseMonsters(xmlDoc, saveInfo));
+			out.append(parseStardrops(xmlDoc, saveInfo));
+			out.append(parseFamily(xmlDoc, saveInfo));
+			out.append(parseSocial(xmlDoc, saveInfo));
+			out.append(parseCooking(xmlDoc, saveInfo));
+			out.append(parseCrafting(xmlDoc, saveInfo));
+			out.append(parseFishing(xmlDoc, saveInfo));
+			out.append(parseBasicShipping(xmlDoc, saveInfo));
+			out.append(parseCropShipping(xmlDoc, saveInfo));
+			out.append(parseMuseum(xmlDoc, saveInfo));
+			out.append(parseSecretNotes(xmlDoc, saveInfo));
+			out.append(parseBundles(xmlDoc, saveInfo));
+			out.append(parseGrandpa(xmlDoc, saveInfo));
+			out.append(parseSpecialOrders(xmlDoc, saveInfo));
+			out.append(parseJournalScraps(xmlDoc, saveInfo));
+			out.append(parseWalnuts(xmlDoc, saveInfo));
+			out.append(parseIslandUpgrades(xmlDoc, saveInfo));
+			out.append(parsePerfectionTracker(xmlDoc, saveInfo));
 
 			// End of checks
 			prog.value = 100;
-
-			document.getElementById('out').innerHTML = output;
 
 			// Now that output has been added to the page, we need to add the output-toggling to each section
 			$('#output-container .collapsible').each(function() {
