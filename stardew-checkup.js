@@ -5,7 +5,7 @@
 /*jslint indent: 4, maxerr: 50, passfail: false, browser: true, regexp: true, plusplus: true */
 /*global $, FileReader */
 
-window.onload = function () {
+$( document ).ready(function () {
 	"use strict";
 
 	// Check for required File API support.
@@ -5077,4 +5077,4 @@ window.onload = function () {
 			}
 		}
 	}
-};
+});
