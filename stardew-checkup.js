@@ -184,17 +184,17 @@ $( document ).ready(function () {
 		
 		return ' (<a href="#sec_Perfection_Tracker">PT: ' + input + '</a>)';
 	}
-	
-	function getSectionHeader(saveInfo, title, anchor, showDetailsButton, version) {
+
+	function getSectionWrapper(saveInfo, title, anchor, showDetailsButton, version) {
 		// Sets up title and buttons which control the collapsible output
 		// showDetailsButton is a bool so that we don't have a control for empty details
 		// version is when that section was added and is used for old vs new interpretation
 		//   version 1.2 is the baseline value for most original sections
 		//   "old" currently means before version 1.5 and "new" is 1.5 & later
-		var prefs = (compareSemVer(version, "1.5") < 0) ? saveInfo.outputPrefOld : saveInfo.outputPrefNew;
-		
-		var output = '<div class="collapsible" id="wrap_' + anchor + '"><h3>' + title + '</h3>';
-		var sum_button, sum_class, det_button, det_class;
+		let prefs = (compareSemVer(version, "1.5") < 0) ? saveInfo.outputPrefOld : saveInfo.outputPrefNew;
+
+		let wrapper = '<div class="collapsible" id="wrap_' + anchor + '"><h3>' + title + '</h3>';
+		let sum_button, sum_class, det_button, det_class;
 
 		if (prefs === 'show_all' || prefs === 'hide_details') {
 			sum_button = "Hide Summary";
@@ -213,14 +213,9 @@ $( document ).ready(function () {
 			button_element = '<button id="toggle_' + anchor + '_details" type="button" data-target="' + anchor + '_details">' + det_button + '</button>';
 		}
 		
-		output += ' <button id="toggle_' + anchor + '_summary" type="button" data-target="' + anchor + '_summary">' + sum_button + '</button> ' + button_element;
-		return output;
-	}
-	
-	function getSectionFooter() {
-		// Companion to getSectionHeader() that mainly exists so that we close all the things the header opened
-		// Currently almost pointless but better base for future expansion.
-		return '</div>';
+		wrapper += ' <button id="toggle_' + anchor + '_summary" type="button" data-target="' + anchor + '_summary">' + sum_button + '</button> ' + button_element;
+		wrapper += '</div>';
+		return $( wrapper );
 	}
 
 	function collapsibleWrap(saveInfo, title, output, version) { return "<h4>PLACEHOLDER</h4>" + output; }
@@ -241,7 +236,6 @@ $( document ).ready(function () {
 			anchor = makeAnchor(title),
 			version = "1.2",
 			sum_class = getSummaryClass(saveInfo, version),
-			output = '',
 			details = '',
 			farmTypes = ['Standard', 'Riverland', 'Forest', 'Hill-top', 'Wilderness', 'Four Corners', 'Beach'],
 			playTime = Number($(xmlDoc).find('player > millisecondsPlayed').text()),
@@ -288,9 +282,8 @@ $( document ).ready(function () {
 			'Walnuts': { 'count': 0, 'total': 130 },
 			} };
 		saveInfo.perfectionTracker[id] = {};
-		
-		output = getSectionHeader(saveInfo, title, anchor, false, version);
-		output += '<div class="' + anchor + '_summary ' + sum_class + '">';
+
+		let output = '<div class="' + anchor + '_summary ' + sum_class + '">';
 		output += '<span class="result">' + $(xmlDoc).find('player > farmName').html() + ' Farm (' + 
 			farmTypes[$(xmlDoc).find('whichFarm').text()] + ')</span><br />';
 		output += '<span class="result">Farmer ' + name ;
@@ -917,7 +910,7 @@ $( document ).ready(function () {
 		output += '</span><br />';
 		var version_num = saveInfo.version;
 		output += '<span class="result">Save is from version ' + version_num + '</span><br /></div>';
-		output += getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, false, version).append(output);
 		return output;
 	}
 
@@ -941,7 +934,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 
@@ -1106,7 +1099,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput = printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 
@@ -1411,7 +1404,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 
@@ -1619,7 +1612,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 		
@@ -1782,7 +1775,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 
@@ -1984,7 +1977,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 	
@@ -2281,7 +2274,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 	
@@ -2398,7 +2391,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 	
@@ -2494,7 +2487,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 	
@@ -2777,7 +2770,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + output + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(output).append(playerOutput);
 		return output;
 	}
 
@@ -2967,7 +2960,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 
@@ -3082,7 +3075,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 
@@ -3140,7 +3133,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 
@@ -3334,8 +3327,7 @@ $( document ).ready(function () {
 		} else if (count >= 4) {
 			candles = 2;
 		}
-		output = getSectionHeader(saveInfo, title, anchor, true, version);
-		output += '<div class="' + anchor + '_summary ' + sum_class + '">';
+		output = '<div class="' + anchor + '_summary ' + sum_class + '">';
 		output += '<span class="result">' + farmer + ' has earned a total of ' + count +
 				' point(s) (details below); the maximum possible is ' + max_count + ' points.</span><br />\n';
 		output += '<span class="result">The shrine has ' + currentCandles + ' candle(s) lit. The next evaluation will light ' +
@@ -3461,9 +3453,9 @@ $( document ).ready(function () {
 		output += (hasSkullKey === 'true') ? getPointString(1, 'has the Skull Key', 0, 1) :
 				getPointString(1, 'get the Skull Key', 0, 0) + ' -- acquired on level 120 of the mines';
 		output += '</li></ul></div>';
-		output += getSectionFooter();
 		
-		return output;
+		output = getSectionWrapper(saveInfo, title, anchor, true, version).append(output);
+		return output
 	}
 
 	function parseBundlesOld(xmlDoc, saveInfo) {
@@ -3740,7 +3732,7 @@ $( document ).ready(function () {
 			output += '<span class="need">Left to do:<ol>' + need.sort().join('') + '</ol></span></div>';
 		}
 
-		output = getSectionHeader(saveInfo, title, anchor, hasDetails, version) + output + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, hasDetails, version).append(output);
 		return output;
 	}
 
@@ -4064,7 +4056,7 @@ $( document ).ready(function () {
 			output += '<span class="need">Left to do:<ol>' + need.sort().join('') + '</ol></span></div>';
 		}
 
-		output = getSectionHeader(saveInfo, title, anchor, hasDetails, version) + output + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, hasDetails, version).append(output);
 		return output;
 	}
 
@@ -4123,7 +4115,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 
@@ -4275,7 +4267,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 
@@ -4429,7 +4421,7 @@ $( document ).ready(function () {
 			}
 		}
 
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + output + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(output);
 		return output;
 	}
 
@@ -4675,7 +4667,7 @@ $( document ).ready(function () {
 			output += '</ol></span></div>';
 		}
 
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + output + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(output);
 		return output;
 	}
 
@@ -4763,7 +4755,7 @@ $( document ).ready(function () {
 			output += '</ol></span></div>';
 		}
 
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + output + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(output);
 		return output;
 	}
 	
@@ -4801,7 +4793,7 @@ $( document ).ready(function () {
 			});
 		}
 		playerOutput += printTranspose(table);
-		output = getSectionHeader(saveInfo, title, anchor, meta.hasDetails, version) + playerOutput + getSectionFooter();
+		output = getSectionWrapper(saveInfo, title, anchor, meta.hasDetails, version).append(playerOutput);
 		return output;
 	}
 	
@@ -4982,7 +4974,7 @@ $( document ).ready(function () {
 				}
 			}
 
-      let out = $('#out');
+			let out = $('#out');
 			out.empty();
 			out.append(parseSummary(xmlDoc, saveInfo));
 			out.append(parseMoney(xmlDoc, saveInfo));
